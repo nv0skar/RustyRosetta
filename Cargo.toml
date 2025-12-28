@@ -1,0 +1,54 @@
+[package]
+name = "RustyRosetta"
+description = "Utility crate used in my projects."
+version = "0.0.1"
+edition = "2024"
+
+[dependencies]
+serde = { version = "1.0.228", features = ["derive"] }
+smallvec = { version = "1.15", features = ["serde", "write", "const_new"] }
+arrayvec = { version = "0.7", features = ["serde"] }
+compact_str = { version = "0.9", features = ["serde"] }
+stackalloc = { version = "1", optional = true }
+rclite = "0.4"
+atomic_refcell = "0.1"
+chacha20 = { version = "0.9", optional = true }
+blake3 = { version = "1.8", optional = true }
+crc32fast = { version = "1.4", optional = true }
+rand = { version = "0.9", optional = true }
+postcard = { version = "1.0", features = ["alloc"], optional = true }
+lz4_flex = { version = "0.12", default-features = false, features = [
+    "safe-decode",
+], optional = true }
+garde = { version = "0.22", features = ["full"] }
+async-trait = "0.1.89"
+derive_more = { version = "2.0", features = ["constructor", "display"] }
+tracing = "0.1"
+anyhow = "1.0"
+
+[features]
+default = ["codec", "checksum", "vla_encoding", "preallocated_stack_encoding"]
+all = [
+    "codec",
+    "crypt",
+    "compress",
+    "authenticated_type",
+    "checksum",
+    "vla_encoding",
+    "preallocated_stack_encoding",
+]
+test = ["all"]
+
+codec = ["dep:postcard"]
+crypt = ["dep:chacha20", "dep:rand"]
+compress = ["dep:lz4_flex"]
+authenticated_type = ["dep:blake3", "dep:rand"]
+checksum = ["dep:crc32fast", "dep:rand"]
+
+stack_allocated_encoding = ["dep:stackalloc"]
+preallocated_stack_encoding = []
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = 'z'
