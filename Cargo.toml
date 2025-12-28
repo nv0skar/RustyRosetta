@@ -27,7 +27,12 @@ tracing = "0.1"
 anyhow = "1.0"
 
 [features]
-default = ["codec", "checksum", "vla_encoding", "preallocated_stack_encoding"]
+default = [
+    "codec",
+    "checksum",
+    "stack_allocated_encoding",
+    "preallocated_stack_encoding",
+]
 all = [
     "codec",
     "crypt",
