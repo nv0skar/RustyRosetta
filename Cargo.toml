@@ -1,5 +1,5 @@
 [package]
-name = "RustyRosetta"
+name = "rustyrosetta"
 description = "Utility crate used in my projects."
 version = "0.0.1"
 edition = "2024"

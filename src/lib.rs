@@ -1,8 +1,6 @@
 // RustyRosetta
 // Copyright (C) 2025 Oscar Alvarez Gonzalez
 
-#![allow(non_snake_case)]
-
 #[cfg(feature = "authenticated_type")]
 pub mod authenticated_type;
 
@@ -23,11 +21,11 @@ use codec::*;
 
 use std::{cell::RefCell, marker::PhantomData, ops::Deref};
 
-use anyhow::{Context, Result, bail, ensure};
+use anyhow::{bail, ensure, Context, Result};
 use arrayvec::ArrayString;
 use derive_more::Display;
 use garde::rules::AsStr;
-use serde::{Deserialize, Serialize, de::DeserializeOwned};
+use serde::{de::DeserializeOwned, Deserialize, Serialize};
 use smallvec::{SmallVec, ToSmallVec};
 use tracing::instrument;
 
