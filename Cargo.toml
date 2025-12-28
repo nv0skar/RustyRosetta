@@ -34,7 +34,7 @@ all = [
     "compress",
     "authenticated_type",
     "checksum",
-    "vla_encoding",
+    "stack_allocated_encoding",
     "preallocated_stack_encoding",
 ]
 test = ["all"]
