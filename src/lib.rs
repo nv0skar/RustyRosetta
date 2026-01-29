@@ -21,19 +21,18 @@ use codec::*;
 
 use std::{cell::RefCell, marker::PhantomData, ops::Deref};
 
-use anyhow::{bail, ensure, Context, Result};
+use anyhow::{Context, Result, bail, ensure};
 use arrayvec::ArrayString;
 use derive_more::Display;
 use garde::rules::AsStr;
-use serde::{de::DeserializeOwned, Deserialize, Serialize};
+use serde::{Deserialize, Serialize, de::DeserializeOwned};
 use smallvec::{SmallVec, ToSmallVec};
 use tracing::instrument;
 
-const CHEAP_VEC_INLINE_ELEMENTS: usize = 16;
 const ENCODING_BUFFER_SIZE: usize = 2048;
 const MAX_STACK_ALLOC_SIZE: usize = 8 * 1024;
 
-pub type CheapVec<T> = SmallVec<[T; CHEAP_VEC_INLINE_ELEMENTS]>;
+pub type CheapVec<T, const INLINE_ELEMENTS: usize = 0> = SmallVec<[T; INLINE_ELEMENTS]>;
 
 pub type Bytes = CheapVec<u8>;
 

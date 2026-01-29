@@ -39,7 +39,7 @@ mod tests {
     #[test]
     fn checksum() -> Result<()> {
         // Generate some random data
-        let random_bytes = CheapVec::from_slice(&rand::random::<[u8; 32]>());
+        let random_bytes = CheapVec::<u8, 32>::from_slice(&rand::random::<[u8; 32]>());
 
         // Checksum the random data
         let checksumed_bytes = Checksumed::new(random_bytes)?;

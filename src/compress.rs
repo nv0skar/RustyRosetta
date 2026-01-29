@@ -23,9 +23,10 @@ impl<T: Clone + PartialEq + Encode<Output = Bytes> + Decode<Input = [u8]>> Compr
     #[instrument(level = "trace", skip_all, err)]
     pub fn take(self) -> Result<T> {
         Ok(T::decode(
-            &decompress_size_prepended(self.1.as_slice())
+            decompress_size_prepended(self.1.as_slice())
                 .ok()
-                .context("Decompression failed")?,
+                .context("Decompression failed")?
+                .as_slice(),
         )?)
     }
 }
@@ -37,7 +38,7 @@ mod tests {
     #[test]
     fn compress() -> Result<()> {
         // Generate some random data
-        let random_bytes = CheapVec::from_slice(&rand::random::<[u8; 32]>());
+        let random_bytes = CheapVec::<u8, 32>::from_slice(&rand::random::<[u8; 32]>());
 
         // Compress the random bytes
         let compressed = Compressed::new(&random_bytes)?;

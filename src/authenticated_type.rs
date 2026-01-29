@@ -37,7 +37,7 @@ mod tests {
     #[test]
     fn authenticated_type() -> Result<()> {
         // Generates some random data
-        let random_bytes = CheapVec::from_slice(&rand::random::<[u8; 32]>());
+        let random_bytes = CheapVec::<u8, 0>::from_slice(&rand::random::<[u8; 32]>());
 
         // Generates a random key for authentication
         let valid_key = &rand::random::<[u8; 32]>();
