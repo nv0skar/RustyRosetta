@@ -1,11 +1,11 @@
 [package]
 name = "rustyrosetta"
 description = "Utility crate used in my projects."
-version = "0.0.2"
+version = "0.0.3"
 edition = "2024"
 
 [dependencies]
-serde = { version = "1.0.228", features = ["derive"] }
+serde = { version = "1.0.228", features = ["derive", "rc"] }
 smallvec = { version = "1.15", features = ["serde", "write", "const_new"] }
 arrayvec = { version = "0.7", features = ["serde"] }
 compact_str = { version = "0.9", features = ["serde"] }
