@@ -3,6 +3,7 @@ name = "rustyrosetta"
 description = "Utility crate used in my projects."
 version = "0.0.4"
 repository = "https://github.com/nv0skar/RustyRosetta"
+license-file = "COPYING.txt"
 edition = "2024"
 
 [dependencies]
