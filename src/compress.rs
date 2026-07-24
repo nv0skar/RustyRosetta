@@ -3,7 +3,7 @@
 
 use crate::*;
 
-use lz4_flex::{compress_prepend_size, decompress_size_prepended};
+use lz4_flex::{compress_into, decompress_into};
 
 /// Contains compressed data
 #[derive(Clone, PartialEq, Serialize, Deserialize)]
@@ -13,21 +13,21 @@ impl<T: Clone + PartialEq + Encode<Output = Bytes> + Decode<Input = [u8]>> Compr
     /// Serializes and compresses data
     #[instrument(level = "trace", skip_all, err)]
     pub fn new(data: &T) -> Result<Self> {
-        Ok(Self(
-            PhantomData,
-            compress_prepend_size(T::encode(data)?.as_slice()).to_smallvec(),
-        ))
+        let mut buff = Bytes::new();
+
+        compress_into(T::encode(data)?.as_slice(), &mut buff)?;
+
+        Ok(Self(PhantomData, buff))
     }
 
     /// Decompresses and deserializes data
     #[instrument(level = "trace", skip_all, err)]
     pub fn take(self) -> Result<T> {
-        Ok(T::decode(
-            decompress_size_prepended(self.1.as_slice())
-                .ok()
-                .context("Decompression failed")?
-                .as_slice(),
-        )?)
+        let mut buff = Bytes::new();
+
+        decompress_into(&self.1, &mut buff)?;
+
+        Ok(T::decode(&buff)?)
     }
 }
 
